@@ -1,0 +1,147 @@
+{
+    "name": "delphi-vscode",
+    "publisher": "adventune",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Adventune/delphi-vscode"
+    },
+    "displayName": "Delphi",
+    "description": "Delphi support for VSCode",
+    "version": "1.0.0",
+    "engines": {
+        "vscode": "^1.91.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "main": "./out/main",
+    "contributes": {
+        "languages": [
+            {
+                "id": "objectpascal",
+                "aliases": [
+                    "Delphi",
+                    "pascal"
+                ],
+                "extensions": [
+                    ".pas",
+                    ".pp",
+                    ".inc",
+                    ".dpr",
+                    ".dpk"
+                ],
+                "configuration": "./language-configuration.json"
+            }
+        ],
+        "grammars": [
+            {
+                "language": "objectpascal",
+                "scopeName": "source.pascal",
+                "path": "./syntaxes/pascal.tmLanguage"
+            }
+        ],
+        "snippets": [
+            {
+                "language": "objectpascal",
+                "path": "./snippets/pascal.json"
+            }
+        ],
+        "configuration": {
+            "type": "object",
+            "title": "Delphi",
+            "properties": {
+                "delphi.bin": {
+                    "type": "string",
+                    "default": "",
+                    "description": "Path to Delphi `bin` folder. Defaults to newest installation."
+                },
+                "delphi.serverType": {
+                    "type": "string",
+                    "default": "controller",
+                    "enum": [
+                        "controller",
+                        "agent",
+                        "linter"
+                    ],
+                    "enumDescriptions": [
+                        "Mutli process mode with <agentCount> sub processes. Error Insight available when <agentCount> >= 2",
+                        "Single process mode without Error Insight",
+                        "Single process mode with Error Insight only; without code completion or other language features"
+                    ],
+                    "description": "Defines the operation mode"
+                },
+                "delphi.agentCount": {
+                    "type": "integer",
+                    "default": 2,
+                    "minimum": 1,
+                    "maximum": 2,
+                    "description": "Defines the number of sub processes (agents) when serverType is controller. If agentCount > 1 then one process will be dedicated to Error Insight"
+                },
+                "delphi.logModes": {
+                    "type": "integer",
+                    "default": 0,
+                    "description": "Bit mask defining logging modes [1 (RawInputMessage), 2 (RawOutputMessage), 4 (Queue), 8 (Processor), 16 (Server), 32 (AgentFacade), 64 (DCC related), 128 (LSP Inspector traces)]"
+                },
+                "delphi.configFile": {
+                    "type": "string",
+                    "default": "",
+                    "description": "File URI of current LSP config (.delphilsp.json)"
+                }
+            }
+        },
+        "commands": [
+            {
+                "command": "delphi.selectConfigFile",
+                "title": "Delphi: Select LSP config file"
+            },
+            {
+                "command": "delphi.regenRunScript",
+                "title": "Delphi: Regenerate run script for current project"
+            },
+            {
+                "command": "delphi.run",
+                "title": "Delphi: Run current project",
+                "icon": "$(play)"
+            }
+        ],
+        "menus": {
+            "editor/title/run": [
+                {
+                    "when": "resourceLangId == objectpascal",
+                    "command": "delphi.run",
+                    "group": "navigation"
+                }
+            ]
+        }
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "package": "vsce package",
+        "compile": "tsc -b",
+        "pretty": "prettier --write ./src/**/*",
+        "check:types": "tsc --noEmit",
+        "check:format": "prettier --check ./src/**/*",
+        "check:all": "npm run check:types && npm run check:format"
+    },
+    "devDependencies": {
+        "@eslint/js": "^9.7.0",
+        "@types/eslint__js": "^8.42.3",
+        "@types/mocha": "^10.0.6",
+        "@types/node": "^18.14.6",
+        "@types/semver": "^7.5.8",
+        "@types/vscode": "^1.91.0",
+        "@typescript-eslint/eslint-plugin": "^7.1.0",
+        "@typescript-eslint/parser": "^7.1.0",
+        "@vscode/test-electron": "^2.3.9",
+        "eslint": "^8.57.0",
+        "mocha": "^10.3.0",
+        "prettier": "^3.3.3",
+        "typescript": "^5.5.3",
+        "typescript-eslint": "^7.16.1"
+    },
+    "dependencies": {
+        "applicationinsights": "^3.2.1",
+        "semver": "^7.6.3",
+        "vscode-languageclient": "^9.0.1"
+    }
+}

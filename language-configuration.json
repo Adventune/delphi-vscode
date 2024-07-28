@@ -1,0 +1,33 @@
+{
+    /* LANGUAGE PROPERTIES */
+    "comments": {
+        "lineComment": "//",
+        "blockComment": ["{", "}"]
+    },
+    "brackets": [
+        ["{", "}"],
+        ["[", "]"],
+        ["(", ")"]
+    ],
+    "autoClosingPairs": [
+        ["{", "}"],
+        ["[", "]"],
+        ["(", ")"],
+        ["(*", "*)"],
+        ["<", ">"],
+        ["'", "'"]
+    ],
+    "surroundingPairs": [
+        ["{", "}"],
+        ["[", "]"],
+        ["(", ")"],
+        ["<", ">"],
+        ["'", "'"]
+    ],
+    "folding": {
+        "markers": {
+            "start": "^\\s*\\{\\$REGION(\\s\\'.*\\')?\\}",
+            "end": "^\\s*\\{\\$ENDREGION\\}"
+        }
+    }
+}
