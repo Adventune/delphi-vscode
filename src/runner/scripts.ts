@@ -9,8 +9,8 @@ import { getDelphiBinDirectory } from '../utils/constantUtils';
  *
  * @returns undefined
  */
-export async function initRunScript() {
-    const json = await loadConfigFileJson();
+export async function initRunScript(config?: string) {
+    const json = await loadConfigFileJson(config);
     if (json === false) return; // No config file has been set
 
     const projectDir = path.dirname(json.settings.project);

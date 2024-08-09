@@ -78,7 +78,7 @@ export function updateConfigWithSelectedItem(configFile: UriItem | string) {
     } else {
         config.update('configFile', configFile.uri);
         window.showInformationMessage('Loaded project ' + path.basename(configFile.label));
-        initRunScript(); // Init run script for the new project
+        initRunScript(configFile.uri); // Init run script for the new project
     }
 }
 
@@ -161,12 +161,15 @@ export function getConfigFilePath(): string {
  *
  * @returns json containing the config file
  */
-export async function loadConfigFileJson() {
-    const storedValue = getConfigFilePath();
-    if (storedValue === 'no_config_available') {
-        return false;
+export async function loadConfigFileJson(config?: string) {
+    if (!config) {
+        const storedValue = getConfigFilePath();
+        if (storedValue === 'no_config_available') {
+            return false;
+        }
+        config = storedValue;
     }
-    const path = decodeURI(storedValue.replace('file:///', '')).replace('c%3A', 'C:/');
+    const path = decodeURI(config.replace('file:///', '')).replace('c%3A', 'C:/');
     const data = readFileSync(path, 'utf8');
     const json: DelphiLSPConfig = await JSON.parse(data);
     json.settings.project = decodeURI(json.settings.project.replace('file:///', '')).replace(
